@@ -1,6 +1,7 @@
 name: Hola mundo
 on: 
   push: # on push throw
+  pull_request: # on pull request throw
   workflow_dispatch: # manual trigger
     inputs:
       name:
@@ -13,7 +14,22 @@ on:
         default: 'Hola mundo from Github Actions!'
 jobs: 
   hello:
+    needs: validate
     runs-on: ubuntu-latest
     steps:
       - name: Mostrar mensaje
         run: echo "Hola ${{ github.event.inputs.name }}! ${{ github.event.inputs.message }}"
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download repository
+        uses: actions/checkout@v4
+      - name: validate readme
+        run: test -f README.md
+  manual-summary:
+    needs: hello
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: show summary
+        run: echo "The manual execution was completed successfully!"
