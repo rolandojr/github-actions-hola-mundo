@@ -20,7 +20,10 @@ jobs:
       - name: Mostrar mensaje
         run: echo "Hola ${{ github.event.inputs.name }}! ${{ github.event.inputs.message }}"
   validate:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: download repository
         uses: actions/checkout@v4
