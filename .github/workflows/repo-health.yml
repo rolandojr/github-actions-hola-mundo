@@ -20,7 +20,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Crear archivo
-        run: echo "Hola" > saludo.txt
-      - name: Leer archivo
-        run: cat saludo.txt
+      - name: Definir variable
+        run: echo "GREETING=Hola" >> "$GITHUB_ENV"
+
+      - name: Usarla en el siguiente paso
+        run: echo "$GREETING"
