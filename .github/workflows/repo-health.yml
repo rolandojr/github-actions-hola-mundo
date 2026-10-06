@@ -17,3 +17,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Verify key files 
         run: test -f README.md && test -f .github/workflows/hello.yml
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear archivo
+        run: echo "Hola" > saludo.txt
+      - name: Leer archivo
+        run: cat saludo.txt
